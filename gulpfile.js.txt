@@ -1,0 +1,85 @@
+import path from 'path'
+import fs from 'fs'
+import { glob } from 'glob'
+import { src, dest, watch, series } from 'gulp'
+import * as dartSass from 'sass'
+import gulpSass from 'gulp-sass'
+import terser from 'gulp-terser'
+import sharp from 'sharp'
+
+const sass = gulpSass(dartSass)
+
+const paths = {
+    scss: 'src/scss/**/*.scss',
+    js: 'src/js/**/*.js'
+}
+
+export function css( done ) {
+    src(paths.scss, {sourcemaps: true})
+        .pipe( sass({
+            outputStyle: 'compressed'
+        }).on('error', sass.logError) )
+        .pipe( dest('./public/build/css', {sourcemaps: '.'}) );
+    done()
+}
+
+export function js( done ) {
+    src(paths.js)
+        .pipe(terser())
+        .pipe(dest('./public/build/js'))
+    done()
+}
+
+export async function imagenes(done) {
+    const srcDir = './src/img'; // <--- CORREGIDO (si tus imgs están en src/img)
+    // SI TUS IMGS ESTÁN EN 'src/assets/images', CAMBIA LA LÍNEA DE ARRIBA POR:
+    // const srcDir = './src/assets/images';
+
+    const buildDir = './public/build/img';
+    const images =  await glob('./src/img/**/*') // <--- Y CAMBIA ESTA TAMBIÉN
+
+    images.forEach(file => {
+        const relativePath = path.relative(srcDir, path.dirname(file));
+        const outputSubDir = path.join(buildDir, relativePath);
+        procesarImagenes(file, outputSubDir);
+    });
+    done();
+}
+
+// (El resto de la función procesarImagenes... va aquí, no la repito)
+function procesarImagenes(file, outputSubDir) {
+    if (!fs.existsSync(outputSubDir)) {
+        fs.mkdirSync(outputSubDir, { recursive: true })
+    }
+    const baseName = path.basename(file, path.extname(file))
+    const extName = path.extname(file)
+
+    if (extName.toLowerCase() === '.svg') {
+        const outputFile = path.join(outputSubDir, `${baseName}${extName}`);
+    fs.copyFileSync(file, outputFile);
+    } else {
+        const outputFile = path.join(outputSubDir, `${baseName}${extName}`);
+        const outputFileWebp = path.join(outputSubDir, `${baseName}.webp`);
+        const outputFileAvif = path.join(outputSubDir, `${baseName}.avif`);
+        const options = { quality: 80 };
+
+        sharp(file).jpeg(options).toFile(outputFile);
+        sharp(file).webp(options).toFile(outputFileWebp);
+        sharp(file).avif().toFile(outputFileAvif);
+    }
+}
+
+
+export function dev( done ) {
+    watch( paths.scss, css );
+    watch( paths.js, js );
+    watch('src/img/**/*.{png,jpg}', imagenes) // <--- Y CAMBIA ESTA TAMBIÉN
+    done();
+}
+
+// Tarea para CONSTRUIR (para Docker)
+export const build = series( js, css, imagenes );
+
+// Tarea para DESARROLLAR (para ti)
+export default series( js, css, imagenes, dev );
+

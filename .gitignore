@@ -1,0 +1,8 @@
+# Dependencias de Node
+node_modules/
+
+# Carpeta de build (se genera, no se guarda)
+public/
+
+# Archivos de Sistema
+.DS_Store
