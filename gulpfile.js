@@ -1,20 +1,20 @@
-import path from 'path'
-import fs from 'fs'
-import { glob } from 'glob'
-import { src, dest, watch, series } from 'gulp'
-import * as dartSass from 'sass'
-import gulpSass from 'gulp-sass'
-import terser from 'gulp-terser'
-import sharp from 'sharp'
+const path = require('path');
+const fs = require('fs');
+const { glob } = require('glob');
+const { src, dest, watch, series } = require('gulp');
+const dartSass = require('sass');
+const gulpSass = require('gulp-sass');
+const terser = require('gulp-terser');
+const sharp = require('sharp');
 
-const sass = gulpSass(dartSass)
+const sass = gulpSass(dartSass);
 
 const paths = {
     scss: 'src/scss/**/*.scss',
     js: 'src/js/**/*.js'
 }
 
-export function css( done ) {
+function css( done ) {
     src(paths.scss, {sourcemaps: true})
         .pipe( sass({
             outputStyle: 'compressed'
@@ -23,20 +23,17 @@ export function css( done ) {
     done()
 }
 
-export function js( done ) {
+function js( done ) {
     src(paths.js)
         .pipe(terser())
         .pipe(dest('./public/build/js'))
     done()
 }
 
-export async function imagenes(done) {
-    const srcDir = './src/img'; // <--- CORREGIDO (si tus imgs están en src/img)
-    // SI TUS IMGS ESTÁN EN 'src/assets/images', CAMBIA LA LÍNEA DE ARRIBA POR:
-    // const srcDir = './src/assets/images';
-
+async function imagenes(done) {
+    const srcDir = './src/img'; // Asegúrate que esta ruta es correcta
     const buildDir = './public/build/img';
-    const images =  await glob('./src/img/**/*') // <--- Y CAMBIA ESTA TAMBIÉN
+    const images =  await glob('./src/img/**/*') // Y esta
 
     images.forEach(file => {
         const relativePath = path.relative(srcDir, path.dirname(file));
@@ -46,7 +43,6 @@ export async function imagenes(done) {
     done();
 }
 
-// (El resto de la función procesarImagenes... va aquí, no la repito)
 function procesarImagenes(file, outputSubDir) {
     if (!fs.existsSync(outputSubDir)) {
         fs.mkdirSync(outputSubDir, { recursive: true })
@@ -69,17 +65,12 @@ function procesarImagenes(file, outputSubDir) {
     }
 }
 
-
-export function dev( done ) {
+function dev( done ) {
     watch( paths.scss, css );
     watch( paths.js, js );
-    watch('src/img/**/*.{png,jpg}', imagenes) // <--- Y CAMBIA ESTA TAMBIÉN
+    watch('src/img/**/*.{png,jpg}', imagenes) // Y esta
     done();
 }
 
-// Tarea para CONSTRUIR (para Docker)
-export const build = series( js, css, imagenes );
-
-// Tarea para DESARROLLAR (para ti)
-export default series( js, css, imagenes, dev );
-
+exports.build = series( js, css, imagenes );
+exports.default = series( js, css, imagenes, dev );
