@@ -15,7 +15,7 @@ COPY . .
 RUN node ./node_modules/gulp/bin/gulp.js build
 
 # --- ETAPA 2: El Servidor (Nginx) ---
-FROM nginx:alpine
+FROM docker.io/nginx:alpine
 
 # Copiamos nuestra configuración personalizada
 COPY nginx.conf /etc/nginx/nginx.conf
