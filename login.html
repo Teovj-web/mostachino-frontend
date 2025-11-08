@@ -4,29 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Mostachino Barber Shop</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/app.js"></script>
+
+    <script defer src="https://alcdn.msauth.net/browser/2.32.0/js/msal-browser.min.js"></script>
+    <script defer src="js/app.js"></script>
+
 </head>
 <body>
 
-    <div class="login-container">
-        <header>
-            <img src="https://via.placeholder.com/100" alt="Logo Mostachino" class="logo">
-            <h1>Mostachino Barber Shop</h1>
-            <p>Ingresa para agendar tu cita</p>
-        </header>
+    <div class="login-layout">
 
-        <form>
-            <p class="ms-login-info">
-                Serás redirigido a la página de inicio de sesión de Microsoft.
-            </p>
+        <div class="login-image-column">
+        </div>
+
+        <div class="login-form-column">
+            <div class="login-content">
+
+                <div id="login-section">
+                    <header>
+                        <h1>Mostachino Barber Shop</h1>
+                        <p>Inicia sesión con tu cuenta de Microsoft</p>
+                    </header>
+                    <form>
+                        <a id="loginBtn" class="submit-btn ms-btn">
+                            Ingresar con Microsoft
+                        </a>
+                        <div class="login-footer">
+                            <p>¿No tienes una cuenta? <a href="#">Crear una</a></p>
+                            <p><a href="#">¿Olvidaste tu password?</a></p>
+                        </div>
+                    </form>
+                </div> <div id="user-section" class="hidden">
+                    < class="booking-container">
+                        <header>
+                            <h1 id="welcome">Reservar Cita</h1>
+                            <p>Bienvenido, <span id="user-name-display"></span>. Selecciona el servicio, barbero y la hora de tu preferencia.</p>
+                            
+                            <form id="booking-form">
+                            <div class="form-group">
+                                <label for="service">Servicio:</label>
+                                <select id="service" name="service" required>
+                                    <option value="">Selecciona un servicio...</option>
+                                    <option value="1">Corte de Cabello</option>
+                                    <option value="2">Afeitado Clásico</option>
+                                    <option value="3">Corte y Barba</option>
+                                </select>
+                            </div>
+
+                             <div class="form-group">
+                                <label for="barber">Barbero:</label>
+                                <select id="barber" name="barber" required>
+                                    <option value="">Selecciona un barbero...</option>
+                                    <option value="1">Juan</option>
+                                    <option value="2">Miguel</option>
+                                </select>
+                            </div>
+                                                                                           
+                            <div class="form-group">
+                                <label for="date">Fecha:</label>
+                                <input type="date" id="date" name="date" required>
+                            </div>
             
-            <a href="index.html" class="submit-btn ms-btn">
-                <img src="httpslogo" alt="Microsoft Logo" />
-                Ingresar con Microsoft
-            </a>
-        </form>
-    </div>
+                            <div class="form-group">
+                                <label for="time">Hora:</label>
+                                <select id="time" name="time" required>
+                                    <option value="">Selecciona una hora...</option>
+                                    <option value="09:00">09:00 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="ms-btn">Reservar Cita</button>
 
+                            <a id="logoutBtn" class="submit-btn btn-rojo" style="margin-top: 2rem;">Cerrar Sesión</a>
+                            
+                            
+                        </header>
+            
+                        
+                            
+                        </form>
+                    </div>
+                </div> </div>
+        </div>
+    </div>
 </body>
 </html>
