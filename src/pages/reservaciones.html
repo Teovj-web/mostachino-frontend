@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservaciones - Mostachino Barber Shop</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script src="https://alcdn.msauth.net/browser/2.32.0/js/msal-browser.min.js"></script>
+    <script defer src="../js/app.js"></script>
+
+    <style>
+        /* --- ESTILOS GENERALES (MODO OSCURO) --- */
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; }
+
+        /* 1. LAYOUT DIVIDIDO */
+        .layout-dividido {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        @media (min-width: 768px) {
+            .layout-dividido {
+                display: grid;
+                grid-template-columns: 40% 60%;
+            }
+        }
+
+        /* 2. IMAGEN IZQUIERDA */
+        .columna-imagen-citas {
+            background-image: url('../img/1.avif'); /* Verifica que esta imagen exista */
+            background-size: cover;
+            background-position: center;
+            min-height: 20rem;
+        }
+        @media (min-width: 768px) {
+            .columna-imagen-citas { height: 100vh; }
+        }
+
+        /* 3. CONTENIDO DERECHA (FONDO NEGRO) */
+        .columna-contenido-citas {
+            background-color: #1a1a1a !important; /* NEGRO */
+            color: #ffffff !important;           /* BLANCO */
+            padding: 3rem 2rem;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centrar verticalmente */
+        }
+
+        /* 4. ENCABEZADO Y TEXTOS */
+        .header-citas { margin-bottom: 2rem; }
+        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: #fff; }
+        p { color: #ccc; margin-bottom: 2rem; }
+        #user-name-display { color: #0078D4; font-weight: bold; }
+
+        /* 5. ESTILOS DEL FORMULARIO (DARK MODE) */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        /* Inputs y Selects oscuros */
+        input, select {
+            width: 100%;
+            padding: 1.2rem;
+            background-color: #2c2c2c; /* Gris oscuro */
+            border: 1px solid #444;
+            border-radius: 5px;
+            color: #ffffff; /* Texto blanco */
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #0078D4; /* Azul Microsoft al enfocar */
+        }
+
+        /* BOTONES */
+        .ms-btn {
+            background-color: #0078D4;
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .ms-btn:hover { background-color: #005a9e; }
+
+        .btn-rojo {
+            background-color: #E50914;
+            color: white;
+            text-decoration: none;
+            padding: 1rem;
+            display: block;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+        .btn-rojo:hover { background-color: #b20710; }
+
+        .acciones-extra {
+            margin-top: 2rem;
+            border-top: 1px solid #333;
+            padding-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="layout-dividido">
+        
+        <div class="columna-imagen-citas"></div>
+
+        <main class="columna-contenido-citas">
+
+            <div style="max-width: 500px; margin: 0 auto; width: 100%;">
+                
+                <header class="header-citas">
+                    <h1>Reservar Nueva Cita</h1>
+                    <p>Bienvenido, <span id="user-name-display">Usuario</span>. Agenda tu servicio.</p>
+                </header>
+
+                <form id="booking-form">
+                    
+                    <div class="form-group">
+                        <label for="service">Servicio:</label>
+                        <select id="service" name="service" required>
+                            <option value="">Cargando servicios...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="barber">Barbero:</label>
+                        <select id="barber" name="barber" required>
+                            <option value="">Selecciona un barbero...</option>
+                        </select>
+                    </div>
+                                                                                                        
+                    <div class="form-group">
+                        <label for="date">Fecha:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="time">Hora:</label>
+                        <select id="time" name="time" required>
+                            <option value="">Selecciona una hora...</option>
+                            <option value="09:00">09:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            </select>
+                     </div>
+
+                    <button type="submit" class="ms-btn">Confirmar Reserva</button>
+
+                    <div class="acciones-extra">
+                        <a href="miscitas.html" class="btn-rojo">Ver Mis Citas</a>
+                        <a href="../login.html" class="btn-rojo" style="background-color: #333;">Cerrar Sesión</a>
+                    </div>
+
+                </form>
+            </div>
+
+        </main>
+    </div>
+
+</body>
+</html>

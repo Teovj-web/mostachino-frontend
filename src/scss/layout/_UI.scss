@@ -1,57 +1,119 @@
 @use 'base/variables' as v;
 @use 'base/mixins' as m;
 
-.contenedor-app {
+// --- LAYOUT PRINCIPAL ---
+.login-layout {
+    // Mobile First: Una sola columna
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
     @include m.tablet {
+        // Tablet/Desktop: Grid de 2 columnas (50% - 50%)
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        min-height: 100vh;
     }
 
-    .imagen {
-        height: 20rem;
-        background-image: url(../img/1.jpg);
+    // COLUMNA IZQUIERDA (IMAGEN)
+    .login-image-column {
+        background-image: url(../img/1.jpg); // Asegúrate que esta ruta sea correcta
         background-size: cover;
         background-position: center center;
+        min-height: 20rem; // Altura en móvil
+
         @include m.tablet {
-            height: auto;
+            height: 100%;
+            min-height: 100vh;
         }
     }
 
-    .app {
-        width: 95%;
-        margin: 0 auto;
-        padding: 3rem 0;
+    // COLUMNA DERECHA (CONTENIDO)
+    .login-form-column {
+        background-color: v.$blanco; // Fondo blanco para contraste limpio
+        display: flex;
+        flex-direction: column;
+        justify-content: center; // Centra verticalmente
+        align-items: center;     // Centra horizontalmente
+        padding: 3rem;
+        
         @include m.tablet {
-            overflow: scroll;
+            overflow-y: auto; // Scroll interno si es necesario
+        }
+    }
+
+    // CONTENEDOR INTERNO (Limita el ancho del texto/inputs)
+    .login-content {
+        width: 100%;
+        max-width: 400px; // Evita que el formulario sea demasiado ancho en pantallas grandes
+    }
+}
+
+// --- ESTILOS DEL FORMULARIO (Look & Feel) ---
+.formulario {
+    margin-top: 2rem;
+
+    .campo {
+        margin-bottom: 1.5rem;
+        
+        label {
+            display: block;
+            font-weight: v.$bold; // Asegúrate de tener esta variable o usa bold
+            margin-bottom: 0.5rem;
+            color: v.$negro;
+        }
+
+        input, 
+        select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid v.$gris; // Borde suave
+            border-radius: 0.5rem;
+            background-color: lighten(v.$gris, 40%); // Fondo muy clarito para inputs
+            
+            &:focus {
+                outline: none;
+                border-color: v.$azul;
+            }
+        }
+    }
+
+    // Botones genéricos
+    .boton {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 1rem;
+        margin-top: 1rem;
+        border-radius: 0.5rem;
+        color: v.$blanco;
+        font-weight: bold;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+
+        &.boton-azul { background-color: v.$azul; }
+        &.boton-rojo { background-color: darken(red, 10%); margin-top: 0.5rem; }
+        &.boton-verde { background-color: green; margin-top: 0.5rem; }
+
+        &:hover {
+            opacity: 0.9;
+        }
+    }
+
+    .login-footer {
+        margin-top: 2rem;
+        text-align: center;
+        font-size: 0.9rem;
+        
+        a {
+            color: v.$azul;
+            text-decoration: none;
+            &:hover { text-decoration: underline; }
         }
     }
 }
 
-.barra {
-    margin: v.$separacion 0;
-
-    @include m.tablet {
-        display: flex;
-        justify-content: space-between;
-        align-items:center;
-    }
-
-    .boton {
-        @include m.boton(v.$negro, v.$blanco);
-        margin: 0;
-    }
-}
-
-.barra-servicios {
-    margin-bottom: v.$separacion;
-
-    @include m.tablet {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .boton {
-        margin: 0 0 1rem 0;
-    }
+// Utilidad para ocultar secciones
+.hidden {
+    display: none;
 }

@@ -6,6 +6,7 @@ const dartSass = require('sass');
 const gulpSass = require('gulp-sass');
 const terser = require('gulp-terser');
 const sharp = require('sharp');
+const fileinclude = require('gulp-file-include');
 
 const sass = gulpSass(dartSass);
 
@@ -14,7 +15,7 @@ const paths = {
     // Si es 'style.scss' cámbialo.
     scss: 'src/scss/style.scss',
     js: 'src/js/**/*.js',
-    html: '*.html'
+    html: ['src/*.html', 'src/pages/**/*.html']
 }
 
 function css( done ) {
@@ -34,9 +35,13 @@ function js( done ) {
 }
 
 function html( done ) {
-    src(paths.html)
-        .pipe(dest('./public/build/'));
-    done();
+    src(paths.html, { base: './src' }) // Lee desde 'src'
+        .pipe(fileinclude({
+          prefix: '@@', // Este es el prefijo para los includes
+          basepath: '@file' // Ayuda a resolver las rutas
+        }))
+        .pipe(dest('./public/build/')); // El destino sigue siendo el 'build'
+    done();
 }
 
 // --- ESTA ES LA SECCIÓN CORREGIDA ---
@@ -133,6 +138,8 @@ function dev( done ) {
     watch('src/img/**/*.{png,jpg}', imagenes) // Y esta
     done();
 }
+
+
 
 exports.build = series( html, js, css, imagenes );
 exports.default = series( js, css, imagenes, dev );

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Citas - Mostachino Barber Shop</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script src="https://alcdn.msauth.net/browser/2.32.0/js/msal-browser.min.js"></script>
+    
+    <script defer src="../js/app.js"></script>
+    <style>
+        /* 1. EL FONDO NEGRO DE LA DERECHA */
+        .columna-contenido-citas {
+            background-color: #1a1a1a !important; /* NEGRO PURO */
+            color: #ffffff !important;           /* TEXTO BLANCO */
+            padding: 3rem 2rem;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        /* 2. EL LAYOUT DIVIDIDO */
+        .layout-dividido {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        @media (min-width: 768px) {
+            .layout-dividido {
+                display: grid;
+                grid-template-columns: 40% 60%; /* 40% Imagen - 60% Contenido */
+            }
+        }
+
+        /* 3. LA IMAGEN DE LA IZQUIERDA */
+        .columna-imagen-citas {
+            background-image: url('../img/1.avif'); /* Asegúrate que la imagen exista */
+            background-size: cover;
+            background-position: center;
+            min-height: 20rem;
+        }
+        @media (min-width: 768px) {
+            .columna-imagen-citas { height: 100vh; }
+        }
+
+        /* 4. TEXTOS Y TÍTULOS */
+        .header-citas h1, 
+        .seccion-citas h3,
+        .header-citas a {
+            color: #ffffff !important; /* Todo blanco */
+        }
+        
+        .header-citas {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .seccion-citas h3 {
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* 5. LAS TARJETAS (CAJAS BLANCAS) */
+        .citas-grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .cita-card {
+            background-color: #ffffff !important; /* FONDO BLANCO */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0, 0.5);
+            color: #1a1a1a !important; /* TEXTO NEGRO ADENTRO */
+        }
+
+        /* Encabezado gris de la tarjeta */
+        .cita-header {
+            background-color: #333;
+            color: #fff !important;
+            padding: 10px 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        /* Cuerpo de la tarjeta */
+        .cita-body {
+            padding: 15px;
+        }
+        .cita-body p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #1a1a1a !important; /* Forzar negro */
+        }
+        .cita-body span.valor {
+            font-weight: normal;
+            color: #333;
+        }
+        .cita-body span.label {
+            font-weight: bold;
+        }
+        .cita-body span.precio {
+            color: #0078d4; /* Azul */
+            font-weight: 900;
+            font-size: 16px;
+        }
+
+        /* Botón Cancelar */
+        .boton-cancelar {
+            width: 100%;
+            background-color: #E50914; /* Rojo */
+            color: white;
+            border: none;
+            padding: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0 0 8px 8px; /* Bordes redondeados abajo */
+        }
+        .boton-cancelar:hover {
+            background-color: #b20710;
+        }
+
+        /* Botón Volver */
+        .boton-volver-rojo {
+            background-color: #E50914;
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Citas Pasadas */
+        .pasada {
+            opacity: 0.7;
+            background-color: #e0e0e0 !important;
+        }
+        .pasada .cita-header {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="layout-dividido">
+        
+        <div class="columna-imagen-citas"></div>
+
+        <main class="columna-contenido-citas">
+
+            <header class="header-citas">
+                <h1>Mis Citas</h1>
+                <a href="../login.html" class="boton-volver-rojo">
+                    CERRAR SESIÓN
+                </a>
+            </header>
+    
+            <section class="seccion-citas">
+                <h3>Próximas Citas</h3>
+                
+                <div class="citas-grid">
+                    <div class="cita-card">
+                        <div class="cita-header">cita</div>
+                        <div class="cita-body">
+                            <p><span class="label">Fecha:</span> <span class="valor">20 Dic, 2025 - 10:00 AM</span></p>
+                            <p><span class="label">Servicio:</span> <span class="valor">Corte de Cabello</span></p>
+                            <p><span class="label">Barbero:</span> <span class="valor">Juan Pérez</span></p>
+                            <p><span class="label">Precio:</span> <span class="valor precio">$25.00</span></p>
+                        </div>
+                        <div class="cita-footer">
+                            <button class="boton-cancelar">Cancelar Cita</button>
+                        </div>
+                    </div>
+                    <div class="cita-card">
+                        <div class="cita-header">cita</div>
+                        <div class="cita-body">
+                            <p><span class="label">Fecha:</span> <span class="valor">22 Dic, 2025 - 11:00 AM</span></p>
+                            <p><span class="label">Servicio:</span> <span class="valor">Afeitado</span></p>
+                            <p><span class="label">Barbero:</span> <span class="valor">Carlos Ruiz</span></p>
+                            <p><span class="label">Precio:</span> <span class="valor precio">$15.00</span></p>
+                        </div>
+                        <div class="cita-footer">
+                        
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <hr class="division">
+    
+            <section class="seccion-citas historial">
+                <h3>Historial de Citas</h3>
+                
+                
+                    <div class="cita-card pasada">
+                        <div class="cita-header">cita</div>
+                        <div class="cita-body">
+                            <p><span class="label">Fecha:</span> <span class="valor">15 Nov, 2025</span></p>
+                            <p><span class="label">Servicio:</span> <span class="valor">Arreglo de Barba</span></p>
+                            <p><span class="label">Barbero:</span> <span class="valor">Pedro Gómez</span></p>
+                            <p><span class="label">Precio:</span> <span class="valor precio">$15.00</span></p>
+                        </div>
+                    </div>
+                </>
+            </section>
+
+        </main>
+    </div> </body>
+</html>

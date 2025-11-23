@@ -1,0 +1,230 @@
+// -------------------------------------
+// 1. VARIABLES
+// -------------------------------------
+@use 'sass:color';
+$negro: #1a1a1a;       
+$blanco: #FFFFFF;
+$gris-oscuro: #2c2c2c; 
+$gris-claro: #a0a0a0;  
+$rojo: #E50914;       
+$azul-microsoft: #0078D4; 
+$fuente_principal: 'Poppins', sans-serif;
+$tablet: 768px;
+
+// -------------------------------------
+// 2. MIXINS
+// -------------------------------------
+@mixin boton($bgColor, $colorTexto) {
+    background-color: $bgColor;
+    padding: 1.5rem 2rem;
+    color: $colorTexto;
+    margin-top: 2rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 5px;
+    transition: background-color .3s ease;
+    text-align: center;
+    display: block;
+    width: 100%;
+    
+    &:hover {
+        background-color: color.adjust($bgColor, $lightness: -10%);
+        cursor: pointer;
+    }
+}
+
+// -------------------------------------
+// 3. ESTILOS BASE
+// -------------------------------------
+html { font-size: 62.5%; box-sizing: border-box; }
+body {
+    background-color: $negro;
+    color: $blanco;
+    font-family: $fuente_principal;
+    font-size: 1.6rem;
+    margin: 0; padding: 0; 
+}
+*, *:before, *:after { box-sizing: inherit; }
+a { text-decoration: none; color: $azul-microsoft; transition: color .3s ease; }
+h1 { font-size: 3.2rem; font-weight: 900; margin: 0 0 1rem 0; }
+p { margin: 0 0 1.5rem 0; }
+.hidden { display: none !important; }
+
+// -------------------------------------
+// 4. LAYOUT LOGIN
+// -------------------------------------
+.login-layout {
+    display: grid; grid-template-columns: 1fr; min-height: 100vh;
+    @media (min-width: $tablet) { grid-template-columns: 1fr 1fr; }
+}
+.login-image-column {
+    display: none; background-image: url('../img/1.avif'); 
+    background-size: cover; background-position: center;
+    @media (min-width: $tablet) { display: block; }
+}
+.login-form-column {
+    background-color: $gris-oscuro; padding: 3rem;
+    display: flex; flex-direction: column; justify-content: center; 
+}
+.login-content {
+    width: 100%; max-width: 450px; margin: 0 auto; 
+    header { margin-bottom: 3rem; p { font-size: 1.8rem; color: $gris-claro; } }
+}
+.ms-btn { @include boton($azul-microsoft, $blanco); }
+.btn-rojo { @include boton($rojo, $blanco); }
+.login-footer {
+    margin-top: 3rem; font-size: 1.4rem; text-align: center;
+    p { margin: 0.5rem 0; }
+}
+pre#apiResponse {
+    background-color: $negro; color: #33FF41; padding: 1.5rem;
+    border-radius: 5px; margin-top: 2rem; font-size: 1.2rem;
+    white-space: pre-wrap; word-wrap: break-word; 
+}
+
+// -------------------------------------
+// -------------------------------------
+// 5. ESTILOS MIS CITAS (FUERZA BRUTA)
+// -------------------------------------
+
+// Layout General
+.layout-dividido {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    
+    @media (min-width: 768px) {
+        display: grid;
+        grid-template-columns: 40% 60%;
+    }
+}
+
+// Imagen Izquierda
+.columna-imagen-citas {
+    background-image: url('../img/1.avif');
+    background-size: cover;
+    background-position: center center;
+    min-height: 20rem; 
+
+    @media (min-width: 768px) {
+        height: 100%;
+        min-height: 100vh;
+    }
+}
+
+// --- AQUÍ ESTÁ EL FIX: FONDO NEGRO OBLIGATORIO ---
+.columna-contenido-citas {
+    background-color: #1a1a1a !important; // <--- ¡EL MARTILLO! Fondo negro forzado
+    color: #FFFFFF !important;           // <--- Texto blanco forzado
+    padding: 3rem 2rem;
+    
+    @media (min-width: 768px) {
+        overflow-y: auto;
+    }
+}
+
+// Encabezado
+.header-citas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+
+    h1 {
+        color: #FFFFFF !important; // Titulo blanco
+        font-size: 2.8rem;
+    }
+
+    .boton-volver-rojo {
+        text-decoration: none;
+        background-color: #E50914;
+        color: #FFFFFF;
+        font-weight: 700;
+        padding: 0.8rem 2rem;
+        border-radius: 5px;
+        font-size: 1.4rem;
+        &:hover { opacity: 0.9; }
+    }
+}
+
+.seccion-citas {
+    margin-bottom: 4rem;
+    h3 {
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        color: #FFFFFF !important; // Subtitulos blancos
+        border-bottom: 1px solid #333;
+        padding-bottom: 0.5rem;
+    }
+}
+
+// --- TARJETAS BLANCAS ---
+.citas-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+}
+
+.cita-card {
+    background-color: #FFFFFF !important; // <--- FONDO BLANCO OBLIGATORIO
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0, 0.5);
+    
+    // FORZAMOS QUE TODO EL TEXTO ADENTRO SEA NEGRO
+    color: #1a1a1a !important; 
+    p, span, div, h4 { color: #1a1a1a !important; }
+
+    .cita-header {
+        background-color: #333; // Cabecera gris oscura
+        color: #FFFFFF !important; // Texto cabecera blanco
+        padding: 1rem 1.5rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .cita-body {
+        padding: 1.5rem;
+        
+        p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+            
+            .label { font-weight: 700; }
+            .valor { text-align: right; }
+            .precio {
+                 color: #0078D4 !important; // Azul Microsoft
+                 font-weight: 900;
+                 font-size: 1.6rem;
+            }
+        }
+    }
+
+    .cita-footer {
+        padding: 1.5rem;
+        .boton-cancelar {
+            background-color: #E50914;
+            color: #FFFFFF !important;
+            border: none;
+            padding: 1rem;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+    }
+    
+    &.pasada {
+        background-color: #e0e0e0 !important;
+        opacity: 0.8;
+    }
+}
+
+.division {
+    border-top: 1px solid #333;
+    margin: 3rem 0;
+}

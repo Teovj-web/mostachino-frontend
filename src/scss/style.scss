@@ -1,17 +1,19 @@
 // -------------------------------------
 // 1. VARIABLES
 // -------------------------------------
+@use 'sass:color';
 $negro: #1a1a1a;
 $blanco: #FFFFFF;
 $gris-oscuro: #2c2c2c; 
 $gris-claro: #a0a0a0;  
+$gris-fondo-citas: #f4f4f4; 
 $rojo: #E50914;       
 $azul-microsoft: #0078D4; 
 $fuente_principal: 'Poppins', sans-serif;
 $tablet: 768px;
 
 // -------------------------------------
-// 2. MIXIN DE BOTÓN
+// 2. MIXINS
 // -------------------------------------
 @mixin boton($bgColor, $colorTexto) {
     background-color: $bgColor;
@@ -28,7 +30,7 @@ $tablet: 768px;
     width: 100%;
     
     &:hover {
-        background-color: darken( $bgColor, 10% );
+        background-color: color.adjust($bgColor, $lightness: -10%);
         cursor: pointer;
     }
 }
@@ -56,7 +58,7 @@ a {
     color: $azul-microsoft;
     transition: color .3s ease;
     &:hover {
-        color: lighten($azul-microsoft, 10%);
+        color: color.adjust($azul-microsoft, $lightness: 10%);
     }
 }
 h1 {
@@ -67,13 +69,12 @@ h1 {
 p {
     margin: 0 0 1.5rem 0;
 }
-// --- ¡NUEVA CLASE! ---
 .hidden {
-    display: none !important; // Oculta la sección
+    display: none !important; 
 }
 
 // -------------------------------------
-// 4. LAYOUT DE 2 COLUMNAS
+// 4. LAYOUT LOGIN
 // -------------------------------------
 .login-layout {
     display: grid;
@@ -85,7 +86,6 @@ p {
     }
 }
 
-// --- COLUMNA 1: IMAGEN ---
 .login-image-column {
     display: none; 
     background-image: url('../img/1.avif'); 
@@ -97,7 +97,6 @@ p {
     }
 }
 
-// --- COLUMNA 2: FORMULARIO ---
 .login-form-column {
     background-color: $gris-oscuro;
     padding: 3rem;
@@ -120,35 +119,57 @@ p {
     }
 }
 
-// --- BOTONES ---
-.ms-btn {
-    @include boton($azul-microsoft, $blanco); 
-}
-// --- ¡NUEVO BOTÓN! ---
-.btn-rojo {
-    @include boton($rojo, $blanco);
-}
+.ms-btn { @include boton($azul-microsoft, $blanco); }
+.btn-rojo { @include boton($rojo, $blanco); }
 
-// --- LINKS DEL FOOTER ---
 .login-footer {
     margin-top: 3rem;
     font-size: 1.4rem;
     text-align: center;
-    
-    p { 
-        margin: 0.5rem 0; 
-    }
+    p { margin: 0.5rem 0; }
 }
 
-// --- ¡NUEVO ESTILO! ---
-// Área de respuesta de la API
 pre#apiResponse {
     background-color: $negro;
-    color: #33FF41; // Verde neón
+    color: #33FF41; 
     padding: 1.5rem;
     border-radius: 5px;
     margin-top: 2rem;
     font-size: 1.2rem;
-    white-space: pre-wrap; // Ajusta el texto
-    word-wrap: break-word; // Rompe palabras largas
+    white-space: pre-wrap; 
+    word-wrap: break-word; 
+}
+
+// -------------------------------------
+// 5. ESTILOS MIS CITAS
+// -------------------------------------
+
+// Layout principal dividido
+.layout-dividido {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    @media (min-width: $tablet) {
+        display: grid;
+        grid-template-columns: 40% 60%;
+    }
+}
+
+.columna-imagen-citas {
+    background-image: url('../img/1.avif');
+    background-size: cover;
+    background-position: center center;
+    min-height: 20rem; 
+
+    @media (min-width: $tablet) {
+        height: 100%;
+        min-height: 100vh;
+    }
+}
+
+.columna-contenido-citas {
+    background-color: $gris-fondo-citas; 
+    padding: 3rem 2rem;
+    overflow-y: auto; 
 }
