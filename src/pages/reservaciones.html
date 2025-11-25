@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../css/style.css">
 
     <script src="https://alcdn.msauth.net/browser/2.32.0/js/msal-browser.min.js"></script>
-    <script defer src="../js/app.js"></script>
+    <script defer src="../js/reservaciones.js"></script>
 
     <style>
         /* --- ESTILOS GENERALES (MODO OSCURO) --- */
@@ -146,7 +146,6 @@
                     <div class="form-group">
                         <label for="service">Servicio:</label>
                         <select id="service" name="service" required>
-                            <option value="">Cargando servicios...</option>
                         </select>
                     </div>
 
@@ -183,6 +182,13 @@
 
         </main>
     </div>
+<script src="../js/reservaciones.js"></script>
+
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        loadAll();
+    });
+</script>
 
 </body>
 </html>
